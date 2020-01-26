@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.server.dao.OrderItemDao" >
+  <resultMap id="BaseResultMap" type="com.server.entity.OrderItem" >
+    <id column="order_item_no" property="orderItemNo" jdbcType="INTEGER" />
+    <result column="order_item_status" property="orderItemStatus" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="book_id" property="bookId" jdbcType="INTEGER" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="sender" property="sender" jdbcType="VARCHAR" />
+    <result column="receiver" property="receiver" jdbcType="VARCHAR" />
+    <result column="send_address" property="sendAddress" jdbcType="VARCHAR" />
+    <result column="send_mobile" property="sendMobile" jdbcType="VARCHAR" />
+    <result column="receive_address" property="receiveAddress" jdbcType="VARCHAR" />
+    <result column="receive_mobile" property="receiveMobile" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_item_no, order_item_status, title, price, book_id, count, sender, receiver, 
+    send_address, send_mobile, receive_address, receive_mobile, create_time, username
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_item
+    where order_item_no = #{orderItemNo,jdbcType=INTEGER}
+  </select>
+  <select id="getByUsername" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    SELECT * FROM order_item <if test="username!=null and username!=''">WHERE username = #{username,jdbcType=VARCHAR}</if> ORDER BY create_time DESC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from order_item
+    where order_item_no = #{orderItemNo,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.server.entity.OrderItem" >
+    insert into order_item (order_item_no, order_item_status, title, 
+      price, book_id, count, 
+      sender, receiver, send_address, 
+      send_mobile, receive_address, receive_mobile, 
+      create_time, username)
+    values (#{orderItemNo,jdbcType=INTEGER}, #{orderItemStatus,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{price,jdbcType=INTEGER}, #{bookId,jdbcType=INTEGER}, #{count,jdbcType=INTEGER}, 
+      #{sender,jdbcType=VARCHAR}, #{receiver,jdbcType=VARCHAR}, #{sendAddress,jdbcType=VARCHAR}, 
+      #{sendMobile,jdbcType=VARCHAR}, #{receiveAddress,jdbcType=VARCHAR}, #{receiveMobile,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{username,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.server.entity.OrderItem" >
+    insert into order_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderItemNo != null" >
+        order_item_no,
+      </if>
+      <if test="orderItemStatus != null" >
+        order_item_status,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="bookId != null" >
+        book_id,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="sender != null" >
+        sender,
+      </if>
+      <if test="receiver != null" >
+        receiver,
+      </if>
+      <if test="sendAddress != null" >
+        send_address,
+      </if>
+      <if test="sendMobile != null" >
+        send_mobile,
+      </if>
+      <if test="receiveAddress != null" >
+        receive_address,
+      </if>
+      <if test="receiveMobile != null" >
+        receive_mobile,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderItemNo != null" >
+        #{orderItemNo,jdbcType=INTEGER},
+      </if>
+      <if test="orderItemStatus != null" >
+        #{orderItemStatus,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="bookId != null" >
+        #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="sender != null" >
+        #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null" >
+        #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="sendAddress != null" >
+        #{sendAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="sendMobile != null" >
+        #{sendMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveAddress != null" >
+        #{receiveAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveMobile != null" >
+        #{receiveMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.server.entity.OrderItem" >
+    update order_item
+    <set >
+      <if test="orderItemStatus != null" >
+        order_item_status = #{orderItemStatus,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="bookId != null" >
+        book_id = #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="sender != null" >
+        sender = #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null" >
+        receiver = #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="sendAddress != null" >
+        send_address = #{sendAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="sendMobile != null" >
+        send_mobile = #{sendMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveAddress != null" >
+        receive_address = #{receiveAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveMobile != null" >
+        receive_mobile = #{receiveMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_item_no = #{orderItemNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.server.entity.OrderItem" >
+    update order_item
+    set order_item_status = #{orderItemStatus,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      price = #{price,jdbcType=INTEGER},
+      book_id = #{bookId,jdbcType=INTEGER},
+      count = #{count,jdbcType=INTEGER},
+      sender = #{sender,jdbcType=VARCHAR},
+      receiver = #{receiver,jdbcType=VARCHAR},
+      send_address = #{sendAddress,jdbcType=VARCHAR},
+      send_mobile = #{sendMobile,jdbcType=VARCHAR},
+      receive_address = #{receiveAddress,jdbcType=VARCHAR},
+      receive_mobile = #{receiveMobile,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      username = #{username,jdbcType=VARCHAR}
+    where order_item_no = #{orderItemNo,jdbcType=INTEGER}
+  </update>
+</mapper>

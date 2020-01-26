@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.server.dao.BookDao">
+	<resultMap id="BaseResultMap" type="com.server.entity.Book">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="introduce" property="introduce" jdbcType="VARCHAR" />
+		<result column="author" property="author" jdbcType="VARCHAR" />
+		<result column="price" property="price" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, title, introduce, author, price, create_time
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from book
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="getAll" resultMap="BaseResultMap">
+		select * from book ORDER BY create_time DESC
+	</select>
+	<select id="getByTitle" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select * from book where title LIKE
+		CONCAT('%',#{title,jdbcType=VARCHAR}, '%')
+	</select>
+	<select id="getByAuthor" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select * from book where author LIKE
+		CONCAT('%',#{author,jdbcType=VARCHAR},
+		'%')
+	</select>
+	<select id="getByAuthorAndTitle" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select * from book where author LIKE CONCAT('%',#{keyWord,jdbcType=VARCHAR},'%') OR title LIKE
+		CONCAT('%',#{keyWord,jdbcType=VARCHAR}, '%') 
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from book
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.server.entity.Book">
+		insert into book (id, title,
+		introduce,
+		author, price, create_time
+		)
+		values (#{id,jdbcType=INTEGER},
+		#{title,jdbcType=VARCHAR},
+		#{introduce,jdbcType=VARCHAR},
+		#{author,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER},
+		#{createTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.server.entity.Book">
+		insert into book
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="introduce != null">
+				introduce,
+			</if>
+			<if test="author != null">
+				author,
+			</if>
+			<if test="price != null">
+				price,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="introduce != null">
+				#{introduce,jdbcType=VARCHAR},
+			</if>
+			<if test="author != null">
+				#{author,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.server.entity.Book">
+		update book
+		<set>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="introduce != null">
+				introduce = #{introduce,jdbcType=VARCHAR},
+			</if>
+			<if test="author != null">
+				author = #{author,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				price = #{price,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.server.entity.Book">
+		update book
+		set
+		title = #{title,jdbcType=VARCHAR},
+		introduce =
+		#{introduce,jdbcType=VARCHAR},
+		author = #{author,jdbcType=VARCHAR},
+		price = #{price,jdbcType=INTEGER},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>
